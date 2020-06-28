@@ -1,0 +1,19 @@
+{
+  "name": "juth_server",
+  "version": "1.0.0",
+  "description": "Juth server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
