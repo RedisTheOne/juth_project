@@ -63,6 +63,7 @@ app.post('/signup', (req, res) => {
                             jwt.sign({user}, jwtKey, {expiresIn: '20d'}, (err, token) => {
                                 res.json({
                                     status: true,
+                                    msg: 'Signed up successfuly',
                                     token
                                 });
                             });

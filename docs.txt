@@ -1,0 +1,57 @@
+
+-------------------------------------------------------------
+API DOCUMENTATION
+-------------------------------------------------------------
+BASE URL: https://juthappapi.herokuapp.com
+-------------------------------------------------------------
+a- /friends/ route
+
+-------------------------------------------------------------
+1) /friends/
+Headers: Authorization: Bearer {token}
+
+Method: GET
+
+Body qe kthen: Info mbi userin qe ka tokenin(username, email, friendRequests dhe friends) si dhe info mbi cdo friend tjeter(username dhe email)
+-------------------------------------------------------------
+2) /friends/signin/
+Headers: Content-Type: application/json
+
+Method: POST
+
+Body Example: {"username": "redis", "password": "redis"}
+
+Body qe kthen: status(true ose false) qe tregon nese jemi ber sign in successfuly, msg(qe na jep info mbi kerkesen e ber) dhe token(te cilin e perdorim per te marr info mbi userin)
+-------------------------------------------------------------
+3) /friends/signup/
+Headers: Content-Type: application/json
+
+Method: POST
+
+Body Example: {"username": "redis", "password": "redis", "email": "redis@gmail.com"}
+
+Body qe kthen: status(true ose false) qe tregon nese jemi ber sign up successfuly, msg(qe na jep info mbi kerkesen e ber) dhe token(te cilin e perdorim per te marr info mbi userin)
+
+Basic Information: nuk mund te besh sign up nese ekziston nje user me te njejtin username(me vone mund te aplikohet dhe Auth System i vete juth app, por ky eshte vetem nje prototip)
+-------------------------------------------------------------
+4) /friends/send/request/
+Headers: Content-Type: application/json, Authorization: Bearer {token}
+
+Method: POST
+
+Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe ti do te behesh shok)
+
+Body qe kthen: status(true ose false) qe tregon nese eshte cuar me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
+
+Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in t'i coje nje friend request dikujt tjeter
+-------------------------------------------------------------
+5) /friends/cancel/request
+Headers: Content-Type: application/json, Authorization: Bearer {token}
+
+Method: POST
+
+Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe ti do te behesh shok)
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere cancel me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
+
+Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in t'e beje cancel 1 request
