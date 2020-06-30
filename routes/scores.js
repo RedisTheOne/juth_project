@@ -2,7 +2,7 @@ const express = require('express');
 const app = express.Router();
 
 //Models
-const User = require('../models/User');
+const Friend = require('../models/Friend');
 const Score = require('../models/Score');
 
 //Get Scores
@@ -40,12 +40,12 @@ app.post('/add', (req, res) => {
 
 //All Time
 app.get('/structured/all-time/', async(req, res) => {
-    User
+    Friend
         .find({})
         .then(users => {
             const finalData = users.map(async (user) => {
                 let scoreSum = 0;
-                const scores = await Score.find({user: user.user});
+                const scores = await Score.find({user: user.username});
                 scores.forEach((s) => scoreSum += s.score);
                 let rank = '';
                 if(scoreSum <= 1000)
@@ -59,7 +59,7 @@ app.get('/structured/all-time/', async(req, res) => {
                 if(scoreSum > 20000)
                     rank = 'S';
                 return {
-                    user: user.user,
+                    user: user.username,
                     score: scoreSum,
                     rank: rank
                 }
@@ -76,12 +76,12 @@ app.get('/structured/all-time/', async(req, res) => {
 
 //Past month
 app.get('/structured/last-month/', async(req, res) => {
-    User
+    Friend
         .find({})
         .then(users => {
             const finalData = users.map(async (user) => {
                 let scoreSum = 0;
-                const scores = await Score.find({user: user.user});
+                const scores = await Score.find({user: user.username});
                 scores.forEach((s) => {
                     const date1 = new Date(s.date);
                     const date2 = new Date();
@@ -102,7 +102,7 @@ app.get('/structured/last-month/', async(req, res) => {
                 if(scoreSum > 20000)
                     rank = 'S';
                 return {
-                    user: user.user,
+                    user: user.username,
                     score: scoreSum,
                     rank
                 }
@@ -119,12 +119,12 @@ app.get('/structured/last-month/', async(req, res) => {
 
 //Past week
 app.get('/structured/last-week/', async(req, res) => {
-    User
+    Friend
         .find({})
         .then(users => {
             const finalData = users.map(async (user) => {
                 let scoreSum = 0;
-                const scores = await Score.find({user: user.user});
+                const scores = await Score.find({user: user.username});
                 scores.forEach((s) => {
                     const date1 = new Date(s.date);
                     const date2 = new Date();
@@ -145,7 +145,7 @@ app.get('/structured/last-week/', async(req, res) => {
                 if(scoreSum > 20000)
                     rank = 'S';
                 return {
-                    user: user.user,
+                    user: user.username,
                     score: scoreSum,
                     rank
                 }
