@@ -1,9 +1,9 @@
-
 -------------------------------------------------------------
 API DOCUMENTATION
 -------------------------------------------------------------
 BASE URL: https://juthappapi.herokuapp.com
 -------------------------------------------------------------
+
 a- /friends/ route
 
 -------------------------------------------------------------
@@ -74,6 +74,48 @@ Method: POST
 
 Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe deshiron ti besh delete)
 
-Body qe kthen: status(true ose false) qe tregon nese eshte bere cancel me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
+Body qe kthen: status(true ose false) qe tregon nese eshte bere delete me sukses apo jo, msg(qe na jep info mbi kerkesen e ber)
 
 Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in te beje delete 1 friend. Pasi mbaron kjo kerkese ne database dhe useri dhe friend i userit nuk do te jene me friends
+-------------------------------------------------------------
+
+b- /scores/ route
+
+-------------------------------------------------------------
+1) /scores/
+Headers: null
+
+Method: GET
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere me sukses kerkesa dhe scores(array me scores)
+-------------------------------------------------------------
+2) /scores/add
+Headers: Content-Type: application/json
+
+Method: POST
+
+Body Example: {"user": "redis", "score": 1000}
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere me sukses kerkesa dhe msg
+-------------------------------------------------------------
+3) /scores/structured/all-time/
+Headers: null
+
+Method: GET
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere me sukses kerkesa dhe data(array qe permban score te cdo useri dhe rankun e tij)
+-------------------------------------------------------------
+4) /scores/structured/last-month/
+Headers: null
+
+Method: GET
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere me sukses kerkesa dhe data(array qe permban score te cdo useri gjate muajit te fundit dhe rankun e tij)
+-------------------------------------------------------------
+5) /scores/structured/last-week/
+Headers: null
+
+Method: GET
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere me sukses kerkesa dhe data(array qe permban score te cdo useri gjate javes se fundit dhe rankun e tij)
+-------------------------------------------------------------
