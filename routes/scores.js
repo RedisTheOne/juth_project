@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
         .then(data => {
             res.json({
                 status: true,
-                score: data
+                scores: data
             });
         })
         .catch(err => res.json({
