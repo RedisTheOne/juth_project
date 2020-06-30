@@ -74,6 +74,45 @@ app.get('/structured/all-time/', async(req, res) => {
         });
 });
 
+//Get Score and rank of a user
+app.get('/structured/user/:name', (req, res) => {
+    Friend
+        .findOne({username: req.params.name})
+        .then(user => {
+            if(!user)
+                res.json({
+                    status: false,
+                    msg: 'User don\'t exist'
+                });
+            else {
+                Score
+                    .find({user: user.username})
+                    .then(scores => {
+                        let scoreSum = 0;
+                        scores.forEach((s) => {
+                            scoreSum += s.score;
+                        });
+                        let rank = '';
+                        if(scoreSum <= 1000)
+                            rank = 'D';
+                        if(scoreSum > 1000 && scoreSum <= 5000)
+                            rank = 'C';
+                        if(scoreSum > 5000 && scoreSum <= 10000)
+                            rank = 'B';
+                        if(scoreSum > 10000 && scoreSum <= 20000)
+                            rank = 'A';
+                        if(scoreSum > 20000)
+                            rank = 'S';
+                        res.json({
+                            user: user.username,
+                            score: scoreSum,
+                            rank
+                        });
+                    });
+            }
+        });
+});
+
 //Past month
 app.get('/structured/last-month/', async(req, res) => {
     Friend
