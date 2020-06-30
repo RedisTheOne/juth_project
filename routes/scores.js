@@ -47,9 +47,21 @@ app.get('/structured/all-time/', async(req, res) => {
                 let scoreSum = 0;
                 const scores = await Score.find({user: user.user});
                 scores.forEach((s) => scoreSum += s.score);
+                let rank = '';
+                if(scoreSum <= 1000)
+                    rank = 'D';
+                if(scoreSum > 1000 && scoreSum <= 5000)
+                    rank = 'C';
+                if(scoreSum > 5000 && scoreSum <= 10000)
+                    rank = 'B';
+                if(scoreSum > 10000 && scoreSum <= 20000)
+                    rank = 'A';
+                if(scoreSum > 20000)
+                    rank = 'S';
                 return {
                     user: user.user,
-                    score: scoreSum
+                    score: scoreSum,
+                    rank: rank
                 }
             });
 
@@ -74,16 +86,25 @@ app.get('/structured/last-month/', async(req, res) => {
                     const date1 = new Date(s.date);
                     const date2 = new Date();
                     const dateDiff = Math.floor((date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
-                    console.log(dateDiff);
-        
                     if(dateDiff <= 30) {
                         scoreSum += s.score;
                     }
-
                 });
+                let rank = '';
+                if(scoreSum <= 1000)
+                    rank = 'D';
+                if(scoreSum > 1000 && scoreSum <= 5000)
+                    rank = 'C';
+                if(scoreSum > 5000 && scoreSum <= 10000)
+                    rank = 'B';
+                if(scoreSum > 10000 && scoreSum <= 20000)
+                    rank = 'A';
+                if(scoreSum > 20000)
+                    rank = 'S';
                 return {
                     user: user.user,
-                    score: scoreSum
+                    score: scoreSum,
+                    rank
                 }
             });
 
@@ -111,11 +132,22 @@ app.get('/structured/last-week/', async(req, res) => {
                     if(dateDiff <= 7) {
                         scoreSum += s.score;
                     }
-
                 });
+                let rank = '';
+                if(scoreSum <= 1000)
+                    rank = 'D';
+                if(scoreSum > 1000 && scoreSum <= 5000)
+                    rank = 'C';
+                if(scoreSum > 5000 && scoreSum <= 10000)
+                    rank = 'B';
+                if(scoreSum > 10000 && scoreSum <= 20000)
+                    rank = 'A';
+                if(scoreSum > 20000)
+                    rank = 'S';
                 return {
                     user: user.user,
-                    score: scoreSum
+                    score: scoreSum,
+                    rank
                 }
             });
 

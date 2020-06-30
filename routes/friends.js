@@ -5,7 +5,6 @@ const jwtKey = 'uasidjasjoteme(($$$fafaskl$@8*$U@$((!($I!($U*!$&$';
 
 //Models
 const Friend = require('../models/Friend');
-const { listenerCount } = require('../models/Friend');
 
 //Get Friends
 app.get('/', checkValidity, (req, res) => {
@@ -189,8 +188,108 @@ app.post('/cancel/request', checkValidity, (req, res) => {
 });
 
 //Accept friend request
+app.post('/accept/request', checkValidity, (req, res) => {
+    if(req.body.friendUsername) {
+        jwt.verify(req.token, jwtKey, (err, authData) => {
+            if(err)
+                res.json({
+                    status: false,
+                    msg: 'Token has expired'
+                });
+            else {
+                Friend
+                    .findOne({_id: authData.user._id})
+                    .then(user => {
+                        //Check if the user is in friend requests
+                        if(user.friendRequests.includes(req.body.friendUsername)) {
+                            //Update User
+                            const filteredUserFriendRequests = user.friendRequests.filter(u => u !== req.body.friendUsername);
+                            const newUserFriends = user.friends;
+                            newUserFriends.push(req.body.friendUsername);
+                            Friend
+                                .updateOne({_id: authData.user._id}, {friends: newUserFriends, friendRequests: filteredUserFriendRequests})
+                                .then(() => {
+                                    //Update THe Friend Who Made The Request
+                                    Friend
+                                        .findOne({username: req.body.friendUsername})
+                                        .then(friend => {
+                                            const newFriendFriends = friend.friends;
+                                            newFriendFriends.push(user.username);
+                                            Friend
+                                                .updateOne({username: req.body.friendUsername}, {friends: newFriendFriends})
+                                                .then(() => {
+                                                    res.json({
+                                                        status: true,
+                                                        msg: 'Friend request accepted successfuly'
+                                                    });
+                                                })
+                                        });
+                                });
+                        } else
+                            res.json({
+                                status: false,
+                                msg: 'Friend request not found'
+                            });
+                    });
+            }
+        });
+    } else
+        res.json({
+            status: false,
+            msg: 'Please fill required fields'
+        });
+});
 
 //Delete friend
+app.post('/delete/friend', checkValidity, (req, res) => {
+    if(req.body.friendUsername) {
+        jwt.verify(req.token, jwtKey, (err, authData) => {
+            if(err)
+                res.json({
+                    status: false,
+                    msg: 'Token has expired'
+                });
+            else {
+                //Delete THe Friend From User In THe DB
+                Friend
+                    .findOne({_id: authData.user._id})
+                    .then(user => {
+                        //Check if they are actually friends
+                        if(user.friends.includes(req.body.friendUsername)) {
+                            //Update user friends
+                            const userFilteredFriends = user.friends.filter(u => u !== req.body.friendUsername);
+                            Friend
+                                .updateOne({_id: authData.user._id}, {friends: userFilteredFriends})
+                                .then(() => {
+                                    //Update Friend Friends
+                                    Friend
+                                        .findOne({username: req.body.friendUsername})
+                                        .then(friend => {
+                                            const friendFilteredFriends = friend.friends.filter(u => u !== user.username);
+                                            Friend
+                                                .updateOne({username: req.body.friendUsername}, {friends: friendFilteredFriends})
+                                                .then(() => {
+                                                    res.json({
+                                                        status: true,
+                                                        msg: 'Friend deleted successfuly'
+                                                    });
+                                                });
+                                        });
+                                });
+                        } else
+                            res.json({
+                                status: false,
+                                msg: 'You are not friends with this person'
+                            });
+                    });
+            }
+        });
+    } else 
+        res.json({
+            status: false,
+            msg: 'Please fill required fields'
+        });
+});
 
 //Check if token is valid
 function checkValidity(req, res, next) {

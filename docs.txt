@@ -55,3 +55,25 @@ Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe ti 
 Body qe kthen: status(true ose false) qe tregon nese eshte bere cancel me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
 
 Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in t'e beje cancel 1 request
+-------------------------------------------------------------
+6) /friends/accept/request
+Headers: Content-Type: application/json, Authorization: Bearer {token}
+
+Method: POST
+
+Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe te ka cuar request dhe deshiron t'ia pranosh)
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere cancel me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
+
+Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in t'e beje accept 1 request te caktuar. Pasi mbaron kjo request, ne database fshihen friendRequests dhe quhen si "friends"
+-------------------------------------------------------------
+7) /friends/delete/friend
+Headers: Content-Type: application/json, Authorization: Bearer {token}
+
+Method: POST
+
+Body Example: {"friendUsername": "redis"}(te kerkon username te friend-it qe deshiron ti besh delete)
+
+Body qe kthen: status(true ose false) qe tregon nese eshte bere cancel me sukses apo jo kerkesa, msg(qe na jep info mbi kerkesen e ber)
+
+Basic Information: Perdoret qe useri, i cili eshte bere log in dhe ka token-in te beje delete 1 friend. Pasi mbaron kjo kerkese ne database dhe useri dhe friend i userit nuk do te jene me friends
