@@ -187,6 +187,10 @@ app.post('/cancel/request', checkValidity, (req, res) => {
         });
 });
 
+//Accept friend request
+
+//Delete friend
+
 //Check if token is valid
 function checkValidity(req, res, next) {
     const bearerHeader = req.headers['authorization'];

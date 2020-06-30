@@ -8,8 +8,16 @@ mongoose.connect('mongodb+srv://redus:redis06122002!@cluster0-xwsm9.mongodb.net/
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log('Error connecting to MongoDb'));
 
+//Middlewares
 app.use(express.json());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    next();
+});
 
+//Routes
 app.use('/scores', require('./routes/scores'));
 app.use('/users', require('./routes/users'));
 app.use('/friends', require('./routes/friends'));
