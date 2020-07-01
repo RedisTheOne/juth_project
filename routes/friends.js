@@ -214,9 +214,10 @@ app.post('/accept/request', checkValidity, (req, res) => {
                                         .findOne({username: req.body.friendUsername})
                                         .then(friend => {
                                             const newFriendFriends = friend.friends;
+                                            const filteredFriendFriendRequests = friend.friendRequests.filter(u => u !== user.username);
                                             newFriendFriends.push(user.username);
                                             Friend
-                                                .updateOne({username: req.body.friendUsername}, {friends: newFriendFriends})
+                                                .updateOne({username: req.body.friendUsername}, {friends: newFriendFriends, friendRequests: filteredFriendFriendRequests})
                                                 .then(() => {
                                                     res.json({
                                                         status: true,
