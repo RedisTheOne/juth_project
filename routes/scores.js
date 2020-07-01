@@ -67,10 +67,14 @@ app.get('/structured/all-time/', async(req, res) => {
 
             Promise
             .all(finalData)
-            .then(completed => res.json({
-                status: true,
-                data: completed
-            }));
+            .then(completed => {
+                let data = completed;
+                data = data.sort((a, b) => b.score - a.score);
+                res.json({
+                    status: true,
+                    data
+                });
+            });
         });
 });
 
@@ -149,10 +153,14 @@ app.get('/structured/last-month/', async(req, res) => {
 
             Promise
             .all(finalData)
-            .then(completed => res.json({
-                status: true,
-                data: completed
-            }));
+            .then(completed => {
+                let data = completed;
+                data = data.sort((a, b) => b.score - a.score);
+                res.json({
+                    status: true,
+                    data
+                });
+            });
         });
 });
 
@@ -192,10 +200,14 @@ app.get('/structured/last-week/', async(req, res) => {
 
             Promise
             .all(finalData)
-            .then(completed => res.json({
-                status: true,
-                data: completed
-            }));
+            .then(completed => {
+                let data = completed;
+                data = data.sort((a, b) => b.score - a.score);
+                res.json({
+                    status: true,
+                    data
+                });
+            });
         });
 });
 
